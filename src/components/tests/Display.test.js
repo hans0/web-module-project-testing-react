@@ -50,7 +50,7 @@ const testShow = {
 }
 
 //4. Test that when the fetch button is pressed, the show component will display. Make sure to account for the api call and change of state in building your test.
-jest.mock('../../api/fetchShow')
+jest.mock('../../api/fetchShow');
 
 test('when fetch button is pressed, the Show component will display', async () => {
   mockFetchShow.mockResolvedValueOnce(testShow);
@@ -60,9 +60,6 @@ test('when fetch button is pressed, the Show component will display', async () =
     userEvent.click(await screen.findByRole('button', {name: /press to get show data/i}));
   });
   expect(screen.findByTestId('show-container')).toBeTruthy();
-  
-
-  
 })
 
 //5. Test that when the fetch button is pressed, the amount of select options rendered is equal to the amount of seasons in your test data.
@@ -74,13 +71,17 @@ test('when fetch button is pressed, the amount of select options rendered is equ
     userEvent.click(await screen.findByRole('button', {name: /press to get show data/i}));
   });
   expect(screen.findByTestId('show-container')).toBeTruthy();
-  // userEvent.click(screen.findAllById('seasons'))
-  // expect(await screen.findAllByLabelText(/select a season/i)).toHaveLength(3);
   const seasonDropdown = screen.getByLabelText(/select a season/i);
   expect(seasonDropdown).toHaveLength(testShow.seasons.length + 1);
 });
 
 //6. Notice the optional functional prop passed in to the Display component client code. Test that when the fetch button is pressed, this function is called.
-test('', () => {
-
+test('test that when the fetch button is pressed, this function is called', async () => {
+  mockFetchShow.mockResolvedValueOnce(testShow);
+  const mockDisplayFunc = jest.fn();
+  render(<Display displayFunc={mockDisplayFunc} />);
+  await act(async () => {
+    userEvent.click(await screen.findByRole('button', {name: /press to get show data/i}));
+  });
+  expect(mockDisplayFunc).toHaveBeenCalledTimes(1);
 });
