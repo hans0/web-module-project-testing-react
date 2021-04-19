@@ -1,6 +1,10 @@
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import Display from './../Display';
 
-
-
+test("Display renders without being passed in props", () => {
+  render(<Display />)
+})
 
 
 
